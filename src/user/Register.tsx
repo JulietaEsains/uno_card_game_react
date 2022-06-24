@@ -17,7 +17,12 @@ export default function Register() {
             return;
         }
 
-        await createUser(name, username, email, password);
+        try {
+            await createUser(name, username, email, password);
+        } catch(err) {
+            alert("El nombre de usuario ingresado no está disponible.")
+            throw err
+        }
     }
 
     return(

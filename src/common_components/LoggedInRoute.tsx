@@ -6,7 +6,7 @@ interface PropType {
     component: React.FC;
 }
 
-// permite que se renderice el componente Game sólo si hay un usuario válido logueado
+// permite que se renderice el componente sólo si hay un usuario válido logueado
 export const StateLoggedInRoute: FC<PropType> = ({component: Component}) => {
     const token = useSessionToken();
   
@@ -15,6 +15,6 @@ export const StateLoggedInRoute: FC<PropType> = ({component: Component}) => {
     if (isAuthenticated) return <Component />;
 
     // else
-    alert("Debes iniciar sesión con un usuario válido para poder jugar.");
+    alert("Debes iniciar sesión con un usuario válido antes de acceder.");
     return <Navigate to='/' />;
 }

@@ -8,6 +8,7 @@ export default function Home() {
             <div className="links-container">
                 <Link to="/login" className="link">Iniciar sesión</Link>
                 <Link to="/register" className="link">Registrarse</Link>
+                <Link to="/profile" className="link">Mi perfil</Link>
                 <Link to="/game" className="link">Jugar</Link>
             </div>
 
