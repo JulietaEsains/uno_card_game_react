@@ -1,10 +1,10 @@
 export default function Card(props) {
     return (
-        <button
+        <img
+            src = {props.image}
+            alt = ""
             className = "card"
             onClick = {props.onClick}
-        >
-            {props.value}
-        </button>
+        />
     );
 }

@@ -1,14 +1,19 @@
 import Card from "./Card.tsx";
 
 export default function Hand(props) {
-    // Renderiza cada carta
     const renderCard = (i) => {
-        return (
-            <Card 
-                value = {props.currentPlayersHand[i]}
-                onClick = {() => props.onCardPlayed(i)}
-            />
-        );
+        if (props.hand[i]) {
+            return (
+                <Card 
+                    image = {require(`./assets/${props.hand[i]}.png`)}
+                    onClick = {() => props.onCardPlayed(i)}
+                />
+            );
+        } else {
+            return (
+                <div className="empty card"></div>
+            );
+        }
     } 
     
     return (

@@ -73,24 +73,28 @@ input {
     align-content: center;
 }
 
-.hand:after {
-    content: "";
-    display: table-row;
-    clear: both;
+.hand {
+    display: flex;
+}
+
+.middle-cards {
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-around;
 }
 
 .card {
+    height: 140px;
+    padding: 0;
+    width: 100px;
+    cursor: pointer;
+    margin: 0 15px;
+    transition: transform 350ms;
+}
+
+.empty {
     border: 1px solid #272727;
     background: #fff;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 34px;
-    height: 120px;
-    padding: 0;
-    text-align: center;
-    width: 80px;
-    cursor: pointer;
-    margin: 0 20px;
 }
 
 .card:focus {
@@ -98,7 +102,7 @@ input {
 }
 
 .card:hover {
-    background: #eee;
+    transform: scale(1.08);
 }
   
 .kbd-navigation .card:focus {
