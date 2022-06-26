@@ -31,10 +31,6 @@ input {
     align-content: center;
 }
 
-.btn-confirm {
-    margin-top: 10px;
-}
-
 .btn {
     color: #272727;
     height: max-content;
@@ -49,6 +45,10 @@ input {
 .btn:hover {
     color: #ccc;
     background-color: #272727;
+}
+
+.btn-confirm {
+    margin-top: 10px;
 }
 
 .link {
@@ -71,4 +71,36 @@ input {
     display: flex;
     justify-content: center;
     align-content: center;
+}
+
+.hand:after {
+    content: "";
+    display: table-row;
+    clear: both;
+}
+
+.card {
+    border: 1px solid #272727;
+    background: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 120px;
+    padding: 0;
+    text-align: center;
+    width: 80px;
+    cursor: pointer;
+    margin: 0 20px;
+}
+
+.card:focus {
+    outline: none;
+}
+
+.card:hover {
+    background: #eee;
+}
+  
+.kbd-navigation .card:focus {
+    background: #272727;
 }

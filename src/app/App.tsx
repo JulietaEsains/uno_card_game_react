@@ -3,8 +3,8 @@ import { StateLoggedInRoute } from "../common_components/LoggedInRoute.tsx";
 import Profile from "../profile/Profile.tsx";
 import Login from "../user/Login.tsx";
 import Register from "../user/Register.tsx";
+import Game from "./game/Game.tsx";
 import Home from "./Home.tsx";
-import Game from "./Game.tsx";
 
 export default function App() {
     return (
