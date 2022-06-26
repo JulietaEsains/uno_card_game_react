@@ -94,7 +94,7 @@ export async function login(email: string, password: string): Promise<Token> {
 
   setCurrentToken(res.token);
   updateSessionToken(res.token);
-  alert("Sesión iniciada, ahora podés jugar.");
+  alert("Sesión iniciada, ahora podés ver tu perfil y jugar.");
   void reloadCurrentUser(email).then()
   return res;
 }
