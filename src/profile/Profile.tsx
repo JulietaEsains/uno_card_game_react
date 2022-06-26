@@ -14,22 +14,22 @@ export default function Profile() {
   
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
     const currentUserId = currentUser[0].id
-
+  
     const loadProfile = async () => {
       if (currentUserId) {
         try {
           const result = await getCurrentProfile(currentUserId)
     
-          setName(result.user.name)
-          setUsername(result.user.username)
-          setEmail(result.user.email)
+          setName(result.name)
+          setUsername(result.username)
+          setEmail(result.email)
           //setPicture(result.picture)
         } catch (error) {
           console.log(error)
         }
       }
     }
-  
+    
     /*const uploadPicture = async (image: string) => {
       try {
         const result = await updateProfilePicture({

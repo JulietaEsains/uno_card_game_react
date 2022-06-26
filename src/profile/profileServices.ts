@@ -18,7 +18,7 @@ export async function updateBasicInfo
             username: username,
             email: email
         })
-      ).data as Profile
+      ).data.user as Profile
       return res
     } catch (err) {
       if ((err as AxiosError).code === "401") {
@@ -42,7 +42,7 @@ export async function updateProfilePicture(image: string, userId: string): Promi
   
 export async function getCurrentProfile(userId: string): Promise<Profile> {
     try {
-      return (await axios.get(`${environment.backendUrl}/users/${userId}`)).data as Profile
+      return (await axios.get(`${environment.backendUrl}/users/${userId}`)).data.user as Profile
     } catch (err) {
       const axiosError = err as AxiosError
       if (axiosError.response && axiosError.response.status === 401) {
