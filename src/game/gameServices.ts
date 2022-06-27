@@ -41,3 +41,12 @@ export async function distributeCards(gameId: string): Promise<Game> {
         }
     })).data.game as Game
 }
+
+// Robar una carta
+export async function drawCard(gameId: string): Promise<Game> {
+    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {
+        game: {
+            update_type: "draw"
+        }
+    })).data.game as Game
+}

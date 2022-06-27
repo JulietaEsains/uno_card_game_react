@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { newGame, distributeCards } from "./gameServices.ts";
+import { newGame, distributeCards, drawCard } from "./gameServices.ts";
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
 
@@ -36,7 +36,13 @@ export default function Game() {
 
     const handleCardDrew = () => {
         if (cardsDistributed) {
-            alert("Carta robada")
+            
+            drawCard(gameId).then(function (response) {
+                console.log(response)
+                setDrawCardPile(response.draw_card_pile)
+                setCurrentPlayersHand(response.player_1_hand)
+            })
+
         } else {
 
             distributeCards(gameId).then(function (response) {
