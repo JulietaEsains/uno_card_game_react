@@ -3,18 +3,23 @@ import Card from "./Card.tsx";
 export default function Hand(props) {
     const renderCard = (item: string, i: number) => {
         if (item) {
-            return(
-                <Card 
-                    key = {i}
-                    image = {require(`./assets/${item}.png`)}
-                    onClick = {() => props.onCardPlayed(i)}
-                />
-            )
-        } else {
-            return (
-                <div></div>
-            )
-        }
+            if (props.show) {
+                return(
+                    <Card 
+                        key = {i}
+                        image = {require(`./assets/${item}.png`)}
+                        onClick = {() => props.onCardPlayed(i)}
+                    />
+                )
+            } else {
+                return(
+                    <Card 
+                        key = {i}
+                        image = {require(`./assets/card-back.png`)}
+                    />
+                )
+            }
+        } 
     } 
 
     return (
