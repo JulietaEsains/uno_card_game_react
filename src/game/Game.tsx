@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { newGame, distributeCards, drawCard } from "./gameServices.ts";
+import { newGame, distributeCards, drawCard, playCard } from "./gameServices.ts";
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
 
@@ -31,7 +31,11 @@ export default function Game() {
     }
 
     const handleCardPlayed = (i) => {
-        
+        playCard(gameId, i).then(function (response) {
+            console.log(response)
+            setPlayedCardsPile(response.played_cards_pile)
+            setCurrentPlayersHand(response.player_1_hand)
+        })
     }
 
     const handleCardDrew = () => {

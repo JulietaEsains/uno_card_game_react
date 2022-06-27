@@ -50,3 +50,13 @@ export async function drawCard(gameId: string): Promise<Game> {
         }
     })).data.game as Game
 }
+
+// Poner una carta en juego
+export async function playCard(gameId: string, cardIndex: number): Promise<Game> {
+    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {
+        game: {
+            update_type: "play",
+            card_index: cardIndex
+        }
+    })).data.game as Game
+}
