@@ -8,7 +8,7 @@ export default function Hand(props) {
                     <Card 
                         key = {i}
                         image = {require(`./assets/${item}.png`)}
-                        onClick = {() => props.onCardPlayed(i)}
+                        onClick = {() => props.onCardClicked(i)}
                     />
                 )
             } else {
@@ -16,6 +16,7 @@ export default function Hand(props) {
                     <Card 
                         key = {i}
                         image = {require(`./assets/card-back.png`)}
+                        onClick = {() => props.onCardClicked()}
                     />
                 )
             }

@@ -19,5 +19,14 @@ export interface Game {
 
 // Nueva partida donde el jugador 1 es el usuario autenticado que realiza la request
 export async function newGame(): Promise<Game> {
-    return (await axios.post(`${environment.backendUrl}/games`, {})).data.game as Game;
+    return (await axios.post(`${environment.backendUrl}/games`, {})).data.game as Game
+}
+
+// Repartición inicial de cartas
+export async function distributeCards(gameId: string): Promise<Game> {
+    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {
+        game: {
+            update_type: "distribute"
+        }
+    })).data.game as Game
 }
