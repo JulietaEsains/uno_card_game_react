@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { newGame, distributeCards, drawCard, playCard } from "./gameServices.ts";
+import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
 
@@ -63,6 +64,22 @@ export default function Game() {
 
     return(
         <div className = "game">
+            <div className = "info">
+                <form autoComplete = "off">
+                    <label>
+                        Número de partida:
+                        <Input
+                            name = "gameNumberInput"
+                            value = {gameNumberInput}
+                            onChange = {(event) => setGameNumberInput(event.target.value)}
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Número de la partida actual: {gameNumberOutput}
+                    </label>
+                </form>
+            </div>
             {/* Mano del otro jugador */}
             <Hand 
                 hand = {otherPlayersHand}

@@ -73,6 +73,10 @@ input {
     align-content: center;
 }
 
+.info {
+    margin-bottom: 10px;
+}
+
 .hand {
     display: flex;
 }
