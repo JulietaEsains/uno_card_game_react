@@ -5,10 +5,14 @@ import Hand from "./Hand.tsx";
 
 export default function Game() {
     const [gameId, setGameId] = useState("")
+    const [gameNumberInput, setGameNumberInput] = useState("")
+    const [gameNumberOutput, setGameNumberOutput] = useState("")
+
     const [otherPlayersHand, setOtherPlayersHand] = useState(Array(10).fill(null))
     const [drawCardPile, setDrawCardPile] = useState(Array(108).fill(null))
     const [playedCardsPile, setPlayedCardsPile] = useState(Array(108).fill(null))
     const [currentPlayersHand, setCurrentPlayersHand] = useState(Array(10).fill(null))
+
     const [turn, setTurn] = useState("1")
     const [cardsDistributed, setCardsDistributed] = useState(false)
 
@@ -17,13 +21,13 @@ export default function Game() {
         newGame().then(function (response) {
             console.log(response)
             setGameId(response.id)
+            setGameNumberOutput(response.id)
             setOtherPlayersHand(response.player_2_hand)
             setDrawCardPile(response.draw_card_pile)
             setPlayedCardsPile(response.played_cards_pile)
             setCurrentPlayersHand(response.player_1_hand)
             setTurn(response.turn)
         })
-
     }
 
     const handleCardPlayed = (i) => {
