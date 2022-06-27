@@ -92,11 +92,6 @@ input {
     transition: transform 350ms;
 }
 
-.empty {
-    border: 1px solid #272727;
-    background: #fff;
-}
-
 .card:focus {
     outline: none;
 }
