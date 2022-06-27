@@ -77,10 +77,10 @@ input {
     display: flex;
 }
 
-.middle-cards {
+.middle-decks {
     margin: 15px 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .card {

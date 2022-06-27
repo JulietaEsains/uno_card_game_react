@@ -3,17 +3,19 @@ import Card from "./Card.tsx";
 import Hand from "./Hand.tsx";
 
 export default function Game() {
-    const [currentPlayersHand, setCurrentPlayersHand] = useState(Array(7).fill(null))
     const [otherPlayersHand, setOtherPlayersHand] = useState(Array(7).fill(null))
+    const [lastCardPlayed, setLastCardPlayed] = useState("")
+    const [currentPlayersHand, setCurrentPlayersHand] = useState(Array(7).fill(null))
 
     const handleCardPlayed = (i) => {
-        alert(`Hiciste click en la carta número ${i+1}`)
+        
     }
 
     const handleCardDrew = () => {
         // Cartas para probar
         setCurrentPlayersHand(['0R','1B','2Y','3G','W','_R','D2B'])
         setOtherPlayersHand(['0R','1B','2Y','3G','W','_R','D2B'])
+        setLastCardPlayed('skipY')
     }
 
     return(
@@ -23,11 +25,16 @@ export default function Game() {
                 hand = {otherPlayersHand}
                 show = {false}
             />
-            <div className = "middle-cards">
+            <div className = "middle-decks">
                 {/* Mazo para robar cartas */}
                 <Card
                     image = {require(`./assets/card-back.png`)}
                     onClick = {handleCardDrew}
+                />
+                {/* Mazo de cartas jugadas */}
+                <Hand
+                    hand = {[lastCardPlayed]}
+                    show = {true}
                 />
             </div>
             {/* Mano del jugador actual */}
