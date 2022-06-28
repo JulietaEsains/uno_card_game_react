@@ -19,7 +19,7 @@ h1 {
 
 input {
     font: 14px "Montserrat", Futura,  sans-serif;
-    width: 100%;
+    width: 80%;
     margin: 10px 0px;
     color: #272727;
 }
@@ -75,6 +75,17 @@ input {
 
 .info {
     margin-bottom: 10px;
+    display: flex;
+}
+
+.scoreboard Button {
+    margin: 0 5px;
+    padding: 5px;
+}
+
+.scoreboard Button:hover {
+    background-color: #ccc;
+    color: #272727;
 }
 
 .hand {

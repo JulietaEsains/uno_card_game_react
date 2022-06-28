@@ -60,3 +60,23 @@ export async function playCard(gameId: string, cardIndex: number): Promise<Game>
         }
     })).data.game as Game
 }
+
+// Sumar un punto de victoria a uno de los jugadores
+export async function incrementWinsCounter(gameId: string, playerId: string): Promise<Game> {
+    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {
+        game: {
+            update_type: "add win",
+            player: playerId 
+        }
+    })).data.game as Game
+}
+
+// Quitar un punto de victoria a uno de los jugadores
+export async function decreaseWinsCounter(gameId: string, playerId: string): Promise<Game> {
+    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {
+        game: {
+            update_type: "remove win",
+            player: playerId 
+        }
+    })).data.game as Game
+}

@@ -3,6 +3,7 @@ import { newGame, distributeCards, drawCard, playCard } from "./gameServices.ts"
 import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
+import Scoreboard from "./Scoreboard.tsx";
 
 export default function Game() {
     const [gameId, setGameId] = useState("")
@@ -79,6 +80,9 @@ export default function Game() {
                         Número de la partida actual: {gameNumberOutput}
                     </label>
                 </form>
+                <Scoreboard
+                    gameNumberOutput = {gameNumberOutput}
+                />
             </div>
             {/* Mano del otro jugador */}
             <Hand 
