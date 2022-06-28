@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { newGame, distributeCards, drawCard, playCard } from "./gameServices.ts";
+import { newGame, joinGame, distributeCards, drawCard, playCard } from "./gameServices.ts";
 import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
@@ -10,10 +10,10 @@ export default function Game() {
     const [gameNumberInput, setGameNumberInput] = useState("")
     const [gameNumberOutput, setGameNumberOutput] = useState("")
 
-    const [otherPlayersHand, setOtherPlayersHand] = useState(Array(10).fill(null))
+    const [otherPlayersHand, setOtherPlayersHand] = useState(Array(108).fill(null))
     const [drawCardPile, setDrawCardPile] = useState(Array(108).fill(null))
     const [playedCardsPile, setPlayedCardsPile] = useState(Array(108).fill(null))
-    const [currentPlayersHand, setCurrentPlayersHand] = useState(Array(10).fill(null))
+    const [currentPlayersHand, setCurrentPlayersHand] = useState(Array(108).fill(null))
 
     const [turn, setTurn] = useState("1")
     const [cardsDistributed, setCardsDistributed] = useState(false)
@@ -30,6 +30,33 @@ export default function Game() {
             setCurrentPlayersHand(response.player_1_hand)
             setTurn(response.turn)
         })
+    }
+
+    const handleJoinGameClick = () => { 
+
+        if (!gameNumberInput) {
+            alert("Por favor ingresa un número de partida para poder unirte a una.");
+            return;
+        }
+
+        setGameId(gameNumberInput);
+
+        // Actualización de la partida existente
+        try {
+            joinGame(gameId).then(function (response) {
+                console.log(response);
+                setGameId(response.id)
+                setGameNumberOutput(response.id)
+                setOtherPlayersHand(response.player_1_hand)
+                setDrawCardPile(response.draw_card_pile)
+                setPlayedCardsPile(response.played_cards_pile)
+                setCurrentPlayersHand(response.player_2_hand)
+                setTurn(response.turn)
+            });
+        } catch (err) {
+            alert("No existe partida con ese número.")
+            throw err;
+        } 
     }
 
     const handleCardPlayed = (i) => {
@@ -113,11 +140,11 @@ export default function Game() {
                     value = "Nueva partida"
                     onClick = {handleNewGameClick}
                 />
-                {/*<Button 
+                <Button 
                     value = "Unirse a partida"
                     onClick = {handleJoinGameClick}
                 />
-                <Link 
+                {/*<Link 
                     to="/login" 
                     className="link"
                     onClick = {() => localStorage.clear()}

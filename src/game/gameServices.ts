@@ -33,6 +33,11 @@ export async function newGame(): Promise<Game> {
     return (await axios.post(`${environment.backendUrl}/games`, {})).data.game as Game
 }
 
+// Unirse a una partida donde el jugador 2 es el usuario autenticado que realiza la request
+export async function joinGame(gameId: string): Promise<Game> {
+    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {})).data.game as Game
+}
+
 // Repartición inicial de cartas
 export async function distributeCards(gameId: string): Promise<Game> {
     return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {
