@@ -19,7 +19,7 @@ h1 {
 
 input {
     font: 14px "Montserrat", Futura,  sans-serif;
-    width: 80%;
+    width: 100%;
     margin: 10px 0px;
     color: #272727;
 }
@@ -76,6 +76,10 @@ input {
 .info {
     margin-bottom: 10px;
     display: flex;
+}
+
+.info input {
+    width: 80%;
 }
 
 .scoreboard Button {
