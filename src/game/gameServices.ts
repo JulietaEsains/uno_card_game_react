@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { environment } from "../app/environment/environment.ts"
 import { User } from "../user/userServices.ts"
 
@@ -35,7 +35,17 @@ export async function newGame(): Promise<Game> {
 
 // Unirse a una partida donde el jugador 2 es el usuario autenticado que realiza la request
 export async function joinGame(gameId: string): Promise<Game> {
-    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {})).data.game as Game
+    try {
+        return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {})).data.game as Game
+    } catch(err) {
+        const axiosError = err as AxiosError
+
+        if (axiosError.response && axiosError.response.status === 404) {
+            alert("No existe partida con ese número.")
+        }
+        
+        throw err
+    }
 }
 
 // Repartición inicial de cartas

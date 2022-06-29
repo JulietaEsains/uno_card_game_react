@@ -90,21 +90,16 @@ export default function Game() {
         gameId = gameNumberInput
 
         // Actualización de la partida existente
-        try {
-            joinGame(gameId).then(function (response) {
-                console.log(response);
-                gameId = response.id
-                setGameNumberOutput(gameId)
-                setTurn(response.turn)
-                setOtherPlayersHand(response.player_1_hand)
-                setDrawCardPile(response.draw_card_pile)
-                setPlayedCardsPile(response.played_cards_pile)
-                setCurrentPlayersHand(response.player_2_hand)
-            });
-        } catch (err) {
-            alert("No existe partida con ese número.")
-            throw err;
-        } 
+        joinGame(gameId).then(function (response) {
+            console.log(response);
+            gameId = response.id
+            setGameNumberOutput(gameId)
+            setTurn(response.turn)
+            setOtherPlayersHand(response.player_1_hand)
+            setDrawCardPile(response.draw_card_pile)
+            setPlayedCardsPile(response.played_cards_pile)
+            setCurrentPlayersHand(response.player_2_hand)
+        });
 
         is1CurrentPlayer = false
         setCardsDistributed(true)
