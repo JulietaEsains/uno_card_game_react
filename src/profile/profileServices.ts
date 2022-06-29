@@ -6,7 +6,6 @@ interface Profile {
     name: string
     username: string
     email: string
-    //picture: string
 }
   
 export async function updateBasicInfo
@@ -28,18 +27,6 @@ export async function updateBasicInfo
     }
 }
   
-/*interface UpdateProfileImageId {
-    id: string
-}
-  
-export async function updateProfilePicture(image: string, userId: string): Promise<UpdateProfileImageId> {
-    return (
-      await axios.patch(`${environment.backendUrl}/users/${userId}`, {
-        picture_url: image
-      })
-    ).data as UpdateProfileImageId
-}*/
-  
 export async function getCurrentProfile(userId: string): Promise<Profile> {
     try {
       return (await axios.get(`${environment.backendUrl}/users/${userId}`)).data.user as Profile
@@ -51,11 +38,3 @@ export async function getCurrentProfile(userId: string): Promise<Profile> {
       throw err
     }
 }
-  
-/*export function getPictureUrl(id: string) {
-    if (id && id.length > 0) {
-      return environment.backendUrl + "/photo/" + id
-    } else {
-      return "/assets/profile.png"
-    }
-}*/

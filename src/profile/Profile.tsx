@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-//import FormImageUpload from "../common_components/FormImageUpload.tsx"
 import { getCurrentProfile, updateBasicInfo } from "./profileServices.ts"
 import Button from "../common_components/Button.tsx"
 import Input from "../common_components/Input.tsx"
@@ -10,7 +9,6 @@ export default function Profile() {
     const [name, setName] = useState("")
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
-    //const [picture, setPicture] = useState("")
   
     const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
     const currentUserId = currentUser[0].id
@@ -23,23 +21,11 @@ export default function Profile() {
           setName(result.name)
           setUsername(result.username)
           setEmail(result.email)
-          //setPicture(result.picture)
         } catch (error) {
           console.log(error)
         }
       }
     }
-    
-    /*const uploadPicture = async (image: string) => {
-      try {
-        const result = await updateProfilePicture({
-          image,
-        })
-        setPicture(result.id)
-      } catch (error) {
-        console.log(error)
-      }
-    }*/
   
     const updateClick = async (e) => {
       e.preventDefault()
@@ -66,14 +52,7 @@ export default function Profile() {
   
     return (
       <div className = "user-form">
-        <form autoComplete = "off">
-  
-          {/*<FormImageUpload
-            picture = {picture}
-            name = "image"
-            onImageChanged = {uploadPicture}
-          />*/}
-  
+        <form autoComplete = "off">  
           <label>
                 Nombre: <Input 
                         name = "name"
