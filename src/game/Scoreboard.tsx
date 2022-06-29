@@ -49,6 +49,14 @@ export default function Scoreboard(props) {
                 player2Score += " o "
             }
             setPlayer2WinsString(player2Score)
+
+            // Chequea cada segundo si cambió el scoreboard en algún browser
+            let interval = setInterval(() => {
+                getCurrentGame(props.gameNumberOutput).then(function (response) {
+                    setPlayer1Wins(response.player_1_wins)
+                    setPlayer2Wins(response.player_2_wins)
+                });
+            }, 1000);
         }
     }, [props.gameNumberOutput, player1Wins, player2Wins]);
 
