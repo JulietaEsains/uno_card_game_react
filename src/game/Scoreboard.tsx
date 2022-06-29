@@ -3,7 +3,9 @@ import { getCurrentGame, getPlayer, incrementWinsCounter, decreaseWinsCounter } 
 import Button from "../common_components/Button.tsx";
 
 export default function Scoreboard(props) {
-    // Nombres de usuario de los jugadores
+    // Datos de los jugadores
+    const [player1Id, setPlayer1Id] = useState(0)
+    const [player2Id, setPlayer2Id] = useState(0)
     const [player1Username, setPlayer1Username] = useState("En espera");
     const [player2Username, setPlayer2Username] = useState("En espera");
 
@@ -23,22 +25,23 @@ export default function Scoreboard(props) {
         if (props.gameNumberOutput) {
             getCurrentGame(props.gameNumberOutput).then(function (response) {
                 console.log(response)
-
-                if (response.player_1_id) {
-                    getPlayer(response.player_1_id).then(function (response) {
-                        setPlayer1Username(response.username);
-                    });
-                } 
-        
-                if (response.player_2_id) {
-                    getPlayer(response.player_2_id).then(function (response) {
-                        setPlayer2Username(response.username);
-                    });
-                }
-
+                setPlayer1Id(response.player_1_id)
+                setPlayer2Id(response.player_2_id)
                 setPlayer1Wins(response.player_1_wins)
                 setPlayer2Wins(response.player_2_wins)
             });
+
+            if (player1Id) {
+                getPlayer(player1Id).then(function (response) {
+                    setPlayer1Username(response.username);
+                });
+            } 
+        
+            if (player2Id) {
+                getPlayer(player2Id).then(function (response) {
+                    setPlayer2Username(response.username);
+                });
+            }
 
             for (let i = 0; i < player1Wins; i++) {
                 player1Score += " o "
@@ -55,10 +58,12 @@ export default function Scoreboard(props) {
                 getCurrentGame(props.gameNumberOutput).then(function (response) {
                     setPlayer1Wins(response.player_1_wins)
                     setPlayer2Wins(response.player_2_wins)
+                    setPlayer1Id(response.player_1_id)
+                    setPlayer2Id(response.player_2_id)
                 });
             }, 1000);
         }
-    }, [props.gameNumberOutput, player1Wins, player2Wins]);
+    }, [props.gameNumberOutput, player1Wins, player2Wins, player1Id, player2Id]);
 
     const handleWinAddition = (playerId: string) => {
         if (props.gameNumberOutput) {
