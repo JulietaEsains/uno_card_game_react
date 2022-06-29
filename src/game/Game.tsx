@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { newGame, joinGame, getCurrentGame, distributeCards, drawCard, playCard, toggleTurn } from "./gameServices.ts";
+import { newGame, joinGame, getCurrentGame, 
+        distributeCards, drawCard, playCard, toggleTurn, playAgain } from "./gameServices.ts";
 import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
@@ -155,6 +156,23 @@ export default function Game() {
         }
     }
 
+    const handleRestartClick = () => {
+        if (!gameNumberOutput) {
+            alert("Debes estar en una partida para poder jugar una nueva ronda.")
+            return
+        }
+
+        playAgain(gameNumberOutput).then(function (response) {
+            console.log(response)
+            setDrawCardPile(response.draw_card_pile)
+            setPlayedCardsPile(response.played_cards_pile)
+                
+            setPlayersHands(response)
+        })
+
+        setCardsDistributed(false)
+    }
+
     return(
         <div className = "game">
             <div className = "info">
@@ -219,6 +237,10 @@ export default function Game() {
                 <Button 
                     value = "Unirse a partida"
                     onClick = {handleJoinGameClick}
+                />
+                <Button 
+                    value = "Jugar nuevamente"
+                    onClick = {handleRestartClick}
                 />
                 <Link 
                     to="/login" 

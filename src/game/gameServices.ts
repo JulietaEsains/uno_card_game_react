@@ -94,3 +94,12 @@ export async function decreaseWinsCounter(gameId: string, playerId: string): Pro
         }
     })).data.game as Game
 }
+
+// Reiniciar los mazos para poder jugar nuevamente
+export async function playAgain(gameId: string): Promise<Game> {
+    return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {
+        game: {
+            update_type: "restart" 
+        }
+    })).data.game as Game
+}
