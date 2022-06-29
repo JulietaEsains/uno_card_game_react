@@ -20,6 +20,17 @@ export default function Game() {
     const [turn, setTurn] = useState("1")
     const [cardsDistributed, setCardsDistributed] = useState(false)
 
+    // Establece las cartas del jugador actual y del oponente de acuerdo a quién es 1 y 2
+    const setPlayersHands = (response) => {
+        if (is1CurrentPlayer) {
+            setCurrentPlayersHand(response.player_1_hand)
+            setOtherPlayersHand(response.player_2_hand)
+        } else {
+            setCurrentPlayersHand(response.player_2_hand)
+            setOtherPlayersHand(response.player_1_hand)
+        }
+    }
+
     // Verifica cada segundo el turno y las cartas de la partida actual
     const checkGameStatus = () => {
         let interval = setInterval(() => {
@@ -28,13 +39,7 @@ export default function Game() {
                 setDrawCardPile(response.draw_card_pile)
                 setPlayedCardsPile(response.played_cards_pile)
                 
-                if (is1CurrentPlayer) {
-                    setCurrentPlayersHand(response.player_1_hand)
-                    setOtherPlayersHand(response.player_2_hand)
-                } else {
-                    setCurrentPlayersHand(response.player_2_hand)
-                    setOtherPlayersHand(response.player_1_hand)
-                }
+                setPlayersHands(response)
             });
         }, 1000);
     }
@@ -92,13 +97,7 @@ export default function Game() {
             console.log(response)
             setPlayedCardsPile(response.played_cards_pile)
 
-            if (is1CurrentPlayer) {
-                setCurrentPlayersHand(response.player_1_hand)
-                setOtherPlayersHand(response.player_2_hand)
-            } else {
-                setCurrentPlayersHand(response.player_2_hand)
-                setOtherPlayersHand(response.player_1_hand)
-            }
+            setPlayersHands(response)
         })
     }
 
@@ -109,13 +108,7 @@ export default function Game() {
                 console.log(response)
                 setDrawCardPile(response.draw_card_pile)
                 
-                if (is1CurrentPlayer) {
-                    setCurrentPlayersHand(response.player_1_hand)
-                    setOtherPlayersHand(response.player_2_hand)
-                } else {
-                    setCurrentPlayersHand(response.player_2_hand)
-                    setOtherPlayersHand(response.player_1_hand)
-                }
+                setPlayersHands(response)
             })
 
         } else {
@@ -125,13 +118,7 @@ export default function Game() {
                 setDrawCardPile(response.draw_card_pile)
                 setPlayedCardsPile(response.played_cards_pile)
                 
-                if (is1CurrentPlayer) {
-                    setCurrentPlayersHand(response.player_1_hand)
-                    setOtherPlayersHand(response.player_2_hand)
-                } else {
-                    setCurrentPlayersHand(response.player_2_hand)
-                    setOtherPlayersHand(response.player_1_hand)
-                }
+                setPlayersHands(response)
             })
 
             setCardsDistributed(true)
