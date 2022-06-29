@@ -4,8 +4,8 @@ import Button from "../common_components/Button.tsx";
 
 export default function Scoreboard(props) {
     // Nombres de usuario de los jugadores
-    const [player1Username, setPlayer1Username] = useState("Jugador en espera");
-    const [player2Username, setPlayer2Username] = useState("Jugador en espera");
+    const [player1Username, setPlayer1Username] = useState("En espera");
+    const [player2Username, setPlayer2Username] = useState("En espera");
 
     // Cantidad de victorias de cada jugador
     const [player1Wins, setPlayer1Wins] = useState(0)
@@ -83,7 +83,7 @@ export default function Scoreboard(props) {
     return(
         <div className="scoreboard">
             <label>
-                {player1Username}: {player1WinsString}
+                {player1Username} (jugador 1): {player1WinsString}
                 <Button
                     value = "+"
                     onClick = {() => handleWinAddition("1")}
@@ -95,7 +95,7 @@ export default function Scoreboard(props) {
             </label>
             <br /><br />
             <label>
-                {player2Username}: {player2WinsString}
+                {player2Username} (jugador 2): {player2WinsString}
                 <Button
                     value = "+"
                     onClick = {() => handleWinAddition("2")}

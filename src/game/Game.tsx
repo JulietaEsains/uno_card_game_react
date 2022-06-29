@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { newGame, joinGame, getCurrentGame, distributeCards, drawCard, playCard } from "./gameServices.ts";
+import { newGame, joinGame, getCurrentGame, distributeCards, drawCard, playCard, toggleTurn } from "./gameServices.ts";
 import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
@@ -43,6 +43,14 @@ export default function Game() {
                 setPlayersHands(response)
             });
         }, 1000);
+    }
+
+    // Cambia el turno del jugador ya sea manual o automáticamente
+    const changeTurn = () => {
+        toggleTurn(gameNumberOutput).then(function (response) {
+            console.log(response)
+            setTurn(response.turn)
+        })
     }
 
     const handleNewGameClick = () => {
@@ -103,12 +111,24 @@ export default function Game() {
     }
 
     const handleCardPlayed = (i) => {
+        // Obtiene el primer caracter de la carta jugada para verificar si es un número        
+        let playedCardFirstChar = currentPlayersHand[i].charAt(0)
+
         playCard(gameNumberOutput, i).then(function (response) {
             console.log(response)
             setPlayedCardsPile(response.played_cards_pile)
 
             setPlayersHands(response)
         })
+
+        // Si la carta era numérica, se cambia de turno automáticamente
+        switch(playedCardFirstChar) {
+            case '0': case '1': case '2': case '3': case '4': 
+            case '5': case '6': case '7': case '8': case '9': {
+                changeTurn()
+                break
+            }
+        }
     }
 
     const handleCardDrew = () => {
@@ -151,6 +171,10 @@ export default function Game() {
                     <label>
                         Número de la partida actual: {gameNumberOutput}
                     </label>
+                    <br /><br />
+                    <label>
+                        Le toca al jugador {turn}
+                    </label>
                 </form>
                 <Scoreboard
                     gameNumberOutput = {gameNumberOutput}
@@ -173,6 +197,13 @@ export default function Game() {
                     hand = {[playedCardsPile[playedCardsPile.length - 1]]}
                     show = {true}
                 />
+                {/* Botón para pasar de turno manualmente si se está en una partida */}
+                {gameNumberOutput &&
+                    <Button 
+                        value = "Pasar turno"
+                        onClick = {changeTurn}
+                    />
+                }
             </div>
             {/* Mano del jugador actual */}
             <Hand 
