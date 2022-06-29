@@ -13,7 +13,7 @@ export default function Scoreboard(props) {
     const [player1Wins, setPlayer1Wins] = useState(0)
     const [player2Wins, setPlayer2Wins] = useState(0)
 
-    // Cantidad de victorias de cada jugador representadas con circulitos
+    // Cantidad de victorias de cada jugador representadas con pequeños círculos
     const [player1WinsString, setPlayer1WinsString] = useState("")
     const [player2WinsString, setPlayer2WinsString] = useState("")
 
@@ -42,7 +42,8 @@ export default function Scoreboard(props) {
                     setPlayer2Username(response.username);
                 });
             }
-
+        
+            // Por cada victoria de un jugador se le dibuja un círculo
             for (let i = 0; i < player1Wins; i++) {
                 player1Score += " o "
             }
@@ -54,6 +55,7 @@ export default function Scoreboard(props) {
             setPlayer2WinsString(player2Score)
 
             // Chequea cada segundo si cambió el scoreboard en algún browser
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             let interval = setInterval(() => {
                 getCurrentGame(props.gameNumberOutput).then(function (response) {
                     setPlayer1Wins(response.player_1_wins)
@@ -65,6 +67,7 @@ export default function Scoreboard(props) {
         }
     }, [props.gameNumberOutput, player1Wins, player2Wins, player1Id, player2Id]);
 
+    // Botón +
     const handleWinAddition = (playerId: string) => {
         if (props.gameNumberOutput) {
             incrementWinsCounter(props.gameNumberOutput, playerId).then(function (response) {
@@ -75,6 +78,7 @@ export default function Scoreboard(props) {
         }
     }
 
+    // Botón -
     const handleWinRemoval = (playerId: string) => {
         if (props.gameNumberOutput) {
             decreaseWinsCounter(props.gameNumberOutput, playerId).then(function (response) {

@@ -48,6 +48,8 @@ export async function joinGame(gameId: string): Promise<Game> {
     }
 }
 
+// UPDATES
+
 // Repartición inicial de cartas
 export async function distributeCards(gameId: string): Promise<Game> {
     return (await axios.patch(`${environment.backendUrl}/games/${gameId}`, {

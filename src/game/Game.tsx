@@ -1,25 +1,40 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { newGame, joinGame, getCurrentGame, 
         distributeCards, drawCard, playCard, toggleTurn, playAgain } from "./gameServices.ts";
 import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
 import Scoreboard from "./Scoreboard.tsx";
-import { Link } from "react-router-dom";
 
 export default function Game() {
-    let gameId = ""
-    let is1CurrentPlayer = true
+    let gameId: string = ""
 
+    // ¿El jugador actual es el jugador 1?
+    let is1CurrentPlayer: boolean = true
+
+    // Valor del input donde se ingresa el número (id) de partida para unirse
     const [gameNumberInput, setGameNumberInput] = useState("")
+
+    // Label donde aparece el número (id) de la partida actual
     const [gameNumberOutput, setGameNumberOutput] = useState("")
 
+    // Mano superior (la del oponente)
     const [otherPlayersHand, setOtherPlayersHand] = useState(Array(108).fill(null))
+
+    // Pila desde la cual se reparten/roban cartas
     const [drawCardPile, setDrawCardPile] = useState(Array(108).fill(null))
+
+    // Pila donde se colocan las cartas a jugar
     const [playedCardsPile, setPlayedCardsPile] = useState(Array(108).fill(null))
+
+    // Mano inferior (la propia)
     const [currentPlayersHand, setCurrentPlayersHand] = useState(Array(108).fill(null))
 
+    // Número del jugador del cual es el turno
     const [turn, setTurn] = useState("1")
+
+    // ¿Se repartieron ya las cartas iniciales?
     const [cardsDistributed, setCardsDistributed] = useState(false)
 
     // Establece las cartas del jugador actual y del oponente de acuerdo a quién es 1 y 2
@@ -35,6 +50,7 @@ export default function Game() {
 
     // Verifica cada segundo el turno y las cartas de la partida actual
     const checkGameStatus = () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let interval = setInterval(() => {
             getCurrentGame(gameId).then(function (response) {
                 setTurn(response.turn);
@@ -54,6 +70,7 @@ export default function Game() {
         })
     }
 
+    // Crear una nueva partida
     const handleNewGameClick = () => {
         // Que gameNumberOutput tenga un valor implica que ya se estaba jugando en este browser
         if (gameNumberOutput) {
@@ -72,10 +89,12 @@ export default function Game() {
             setCurrentPlayersHand(response.player_1_hand)
         })
 
+        // El jugador 1 es quien crea la partida
         is1CurrentPlayer = true
         checkGameStatus()
     }
 
+    // Unirse a una partida existente
     const handleJoinGameClick = () => { 
         if (gameNumberOutput) {
             alert("Debes reiniciar antes de unirte a una nueva partida.");
@@ -89,7 +108,6 @@ export default function Game() {
 
         gameId = gameNumberInput
 
-        // Actualización de la partida existente
         joinGame(gameId).then(function (response) {
             console.log(response);
             gameId = response.id
@@ -101,14 +119,17 @@ export default function Game() {
             setCurrentPlayersHand(response.player_2_hand)
         });
 
+        // El jugador 2 es quien se une a la partida
         is1CurrentPlayer = false
+
+        // No se permite que el jugador 2 reparta las cartas, solo que robe
         setCardsDistributed(true)
         checkGameStatus()
     }
 
     const handleCardPlayed = (i) => {
         // Obtiene el primer caracter de la carta jugada para verificar si es un número        
-        let playedCardFirstChar = currentPlayersHand[i].charAt(0)
+        let playedCardFirstChar: string = currentPlayersHand[i].charAt(0)
 
         playCard(gameNumberOutput, i).then(function (response) {
             console.log(response)
@@ -128,6 +149,8 @@ export default function Game() {
     }
 
     const handleCardDrew = () => {
+        /* Si las cartas ya fueron repartidas, se roba una carta; sino se reparten 7 a cada uno
+        y se deja una en juego */
         if (cardsDistributed) {
             
             drawCard(gameNumberOutput).then(function (response) {
@@ -151,6 +174,7 @@ export default function Game() {
         }
     }
 
+    // Comenzar una nueva "ronda" en la partida
     const handleRestartClick = () => {
         if (!gameNumberOutput) {
             alert("Debes estar en una partida para poder jugar una nueva ronda.")
@@ -193,7 +217,8 @@ export default function Game() {
                     gameNumberOutput = {gameNumberOutput}
                 />
             </div>
-            {/* Mano del otro jugador */}
+            {/* Mano del otro jugador 
+            show indica si se muestra el frente o el dorso de las cartas*/}
             <Hand 
                 hand = {otherPlayersHand}
                 show = {false}
