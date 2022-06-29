@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { newGame, joinGame, distributeCards, drawCard, playCard } from "./gameServices.ts";
+import { newGame, joinGame, getCurrentGame, distributeCards, drawCard, playCard } from "./gameServices.ts";
 import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
 import Scoreboard from "./Scoreboard.tsx";
 
 export default function Game() {
-    const [gameId, setGameId] = useState("")
+    let gameId = ""
+    let is1CurrentPlayer = true
+
     const [gameNumberInput, setGameNumberInput] = useState("")
     const [gameNumberOutput, setGameNumberOutput] = useState("")
 
@@ -18,18 +20,40 @@ export default function Game() {
     const [turn, setTurn] = useState("1")
     const [cardsDistributed, setCardsDistributed] = useState(false)
 
+    // Verifica cada segundo el turno y las cartas de la partida actual
+    const checkGameStatus = () => {
+        let interval = setInterval(() => {
+            getCurrentGame(gameId).then(function (response) {
+                setTurn(response.turn);
+                setDrawCardPile(response.draw_card_pile)
+                setPlayedCardsPile(response.played_cards_pile)
+                
+                if (is1CurrentPlayer) {
+                    setCurrentPlayersHand(response.player_1_hand)
+                    setOtherPlayersHand(response.player_2_hand)
+                } else {
+                    setCurrentPlayersHand(response.player_2_hand)
+                    setOtherPlayersHand(response.player_1_hand)
+                }
+            });
+        }, 1000);
+    }
+
     const handleNewGameClick = () => {
 
         newGame().then(function (response) {
             console.log(response)
-            setGameId(response.id)
-            setGameNumberOutput(response.id)
+            gameId = response.id
+            setGameNumberOutput(gameId)
+            setTurn(response.turn)
             setOtherPlayersHand(response.player_2_hand)
             setDrawCardPile(response.draw_card_pile)
             setPlayedCardsPile(response.played_cards_pile)
             setCurrentPlayersHand(response.player_1_hand)
-            setTurn(response.turn)
         })
+
+        is1CurrentPlayer = true
+        checkGameStatus()
     }
 
     const handleJoinGameClick = () => { 
@@ -39,51 +63,75 @@ export default function Game() {
             return;
         }
 
-        setGameId(gameNumberInput);
+        gameId = gameNumberInput
 
         // Actualización de la partida existente
         try {
             joinGame(gameId).then(function (response) {
                 console.log(response);
-                setGameId(response.id)
-                setGameNumberOutput(response.id)
+                gameId = response.id
+                setGameNumberOutput(gameId)
+                setTurn(response.turn)
                 setOtherPlayersHand(response.player_1_hand)
                 setDrawCardPile(response.draw_card_pile)
                 setPlayedCardsPile(response.played_cards_pile)
                 setCurrentPlayersHand(response.player_2_hand)
-                setTurn(response.turn)
             });
         } catch (err) {
             alert("No existe partida con ese número.")
             throw err;
         } 
+
+        is1CurrentPlayer = false
+        setCardsDistributed(true)
+        checkGameStatus()
     }
 
     const handleCardPlayed = (i) => {
-        playCard(gameId, i).then(function (response) {
+        playCard(gameNumberOutput, i).then(function (response) {
             console.log(response)
             setPlayedCardsPile(response.played_cards_pile)
-            setCurrentPlayersHand(response.player_1_hand)
+
+            if (is1CurrentPlayer) {
+                setCurrentPlayersHand(response.player_1_hand)
+                setOtherPlayersHand(response.player_2_hand)
+            } else {
+                setCurrentPlayersHand(response.player_2_hand)
+                setOtherPlayersHand(response.player_1_hand)
+            }
         })
     }
 
     const handleCardDrew = () => {
         if (cardsDistributed) {
             
-            drawCard(gameId).then(function (response) {
+            drawCard(gameNumberOutput).then(function (response) {
                 console.log(response)
                 setDrawCardPile(response.draw_card_pile)
-                setCurrentPlayersHand(response.player_1_hand)
+                
+                if (is1CurrentPlayer) {
+                    setCurrentPlayersHand(response.player_1_hand)
+                    setOtherPlayersHand(response.player_2_hand)
+                } else {
+                    setCurrentPlayersHand(response.player_2_hand)
+                    setOtherPlayersHand(response.player_1_hand)
+                }
             })
 
         } else {
 
-            distributeCards(gameId).then(function (response) {
+            distributeCards(gameNumberOutput).then(function (response) {
                 console.log(response)
-                setOtherPlayersHand(response.player_2_hand)
                 setDrawCardPile(response.draw_card_pile)
                 setPlayedCardsPile(response.played_cards_pile)
-                setCurrentPlayersHand(response.player_1_hand)
+                
+                if (is1CurrentPlayer) {
+                    setCurrentPlayersHand(response.player_1_hand)
+                    setOtherPlayersHand(response.player_2_hand)
+                } else {
+                    setCurrentPlayersHand(response.player_2_hand)
+                    setOtherPlayersHand(response.player_1_hand)
+                }
             })
 
             setCardsDistributed(true)
