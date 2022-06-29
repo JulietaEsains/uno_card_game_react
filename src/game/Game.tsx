@@ -4,6 +4,7 @@ import Input from "../common_components/Input.tsx"
 import Button from "../common_components/Button.tsx"
 import Hand from "./Hand.tsx";
 import Scoreboard from "./Scoreboard.tsx";
+import { Link } from "react-router-dom";
 
 export default function Game() {
     let gameId = ""
@@ -45,6 +46,11 @@ export default function Game() {
     }
 
     const handleNewGameClick = () => {
+        // Que gameNumberOutput tenga un valor implica que ya se estaba jugando en este browser
+        if (gameNumberOutput) {
+            alert("Debes reiniciar antes de comenzar una nueva partida.");
+            return;
+        }
 
         newGame().then(function (response) {
             console.log(response)
@@ -62,6 +68,10 @@ export default function Game() {
     }
 
     const handleJoinGameClick = () => { 
+        if (gameNumberOutput) {
+            alert("Debes reiniciar antes de unirte a una nueva partida.");
+            return;
+        }
 
         if (!gameNumberInput) {
             alert("Por favor ingresa un número de partida para poder unirte a una.");
@@ -179,13 +189,13 @@ export default function Game() {
                     value = "Unirse a partida"
                     onClick = {handleJoinGameClick}
                 />
-                {/*<Link 
+                <Link 
                     to="/login" 
                     className="link"
                     onClick = {() => localStorage.clear()}
                 >
                     Reiniciar
-                </Link>*/}
+                </Link>
             </div>
         </div>
     )
